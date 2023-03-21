@@ -3,6 +3,7 @@ import time
 
 import mlp
 import torch
+import random
 
 
 class gt():
@@ -81,17 +82,32 @@ class gt():
         # tac.backward()
 
         
-
-        tac = torch.where(tac>0.5,1,0)
-
-
+        yuzhi = 0.5 # 这个阈值与下面的01无关，只是relu 会让输出大于等于0，yuzhi不要取太小。更不要小于0
+        tac = torch.where(tac>yuzhi,1,0)
         fac = float(tac)
 
-        print('fac',fac)
 
-        ac = fac>0.5
+
+        # print('fac',fac)
+
+        nac = fac>0.5
         # print('ac',ac)
-        
+
+
+        # 以上是nn的建议。
+
+        # 下面要用 探索贪婪策略
+
+
+        p = 0.1
+        xfc = 2**10
+        xf = random.randint(0,xfc-1)
+        if(xf<p*xfc):
+            print('explore')
+            ac = random.randint(0,1)
+        else:
+            print('greedy')
+            ac = nac
 
         return ac
         
