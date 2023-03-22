@@ -41,6 +41,8 @@ class gt():
         lr = 0.02
         self.nn  = mlp.mlp(super_param,lr,batch_size,'gpu')         # 构造神经网络
 
+
+
     def acf(self):
 
         state = self.state
@@ -81,12 +83,25 @@ class gt():
 
     def liquidate(self):
 
+        # print('清算')
         q_line = 0  # 比这条线高，就当作榜样来学习
         dcl = self.dcl
 
 
+        # le = len(dcl)
+        # sum = 0
+        # for i,dc in enumerate(dcl):
+        #     # print(dc['score'])
+
+        #     sum+=dc['score']
+        # avg = sum/le
+        # print('平均得分',avg)
+
         cc = self.cc
 
+        # 把高于 心理预期 的加入其中
+
+        # high = dcl[0]['score']
         
 
         upl = list()
@@ -98,38 +113,39 @@ class gt():
                 # print(dcl[i]['score'])
         
 
-        high = 0
-        low = 0
-        if(len(upl)>=1):
-            high = upl[0]['score']
-            low = upl[0]['score']
-            for i,dc in enumerate(upl):
-                
-                if(score>high):
-                    high=score
-                if(score<low):
-                    low = score
-                    
-            # 其实可以加入一个评价训练的机制，暂时不管了。
-            # 如果训练后成绩变差了，就放弃这次的训练成果。
+
+        high = upl[0]['score']
+        low = upl[0]['score']
+        for i,dc in enumerate(upl):
+            
+            if(score>high):
+                high=score
+            if(score<low):
+                low = score
+
+        # 其实可以加入一个评价训练的机制，暂时不管了。
+        # 如果训练后成绩变差了，就放弃这次的训练成果。
+
+        # for i ,ele in enumerate(upl):
+            # print(ele['score'])
 
 
+        # print(upl[0]['list'])
 
-            # 训练神经网络 self.nn
 
-            # 更新档次 cc
-            ur = 0.5    # 档次提升度 up_ratio   类比 学习率
+        # 训练神经网络 self.nn
 
-            # self.cc
-            new_cc = (high -low)* ur + low
+        # 更新档次 cc
+        ur = 0.5    # 档次提升度 up_ratio   类比 学习率
 
-            if(new_cc >self.cc):
-                self.cc = new_cc
+        # self.cc
+        new_cc = (high -low)* ur + low
 
-            print('训练集',len(upl),self.cc)
-        else:
-            # print('不训练，没有更好的')
-            pass
+        if(new_cc >self.cc):
+            self.cc = new_cc
+
+        # print('新档次',self.cc)
+        print('训练集',len(upl),self.cc)
         
 
 

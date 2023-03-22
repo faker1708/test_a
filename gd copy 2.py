@@ -109,27 +109,24 @@ class gt():
                     high=score
                 if(score<low):
                     low = score
-                    
-            # 其实可以加入一个评价训练的机制，暂时不管了。
-            # 如果训练后成绩变差了，就放弃这次的训练成果。
+
+        # 其实可以加入一个评价训练的机制，暂时不管了。
+        # 如果训练后成绩变差了，就放弃这次的训练成果。
 
 
 
-            # 训练神经网络 self.nn
+        # 训练神经网络 self.nn
 
-            # 更新档次 cc
-            ur = 0.5    # 档次提升度 up_ratio   类比 学习率
+        # 更新档次 cc
+        ur = 0.5    # 档次提升度 up_ratio   类比 学习率
 
-            # self.cc
-            new_cc = (high -low)* ur + low
+        # self.cc
+        new_cc = (high -low)* ur + low
 
-            if(new_cc >self.cc):
-                self.cc = new_cc
+        if(new_cc >self.cc):
+            self.cc = new_cc
 
-            print('训练集',len(upl),self.cc)
-        else:
-            # print('不训练，没有更好的')
-            pass
+        print('训练集',len(upl),self.cc)
         
 
 
