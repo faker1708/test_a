@@ -5,7 +5,6 @@ import mlp
 import torch
 import random
 
-# conda activate python39
 
 class gt():
 

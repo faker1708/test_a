@@ -5,7 +5,6 @@ import mlp
 import torch
 import random
 
-# conda activate python39
 
 class gt():
 
@@ -126,6 +125,7 @@ class gt():
         # 其实可以加入一个评价训练的机制，暂时不管了。
         # 如果训练后成绩变差了，就放弃这次的训练成果。
 
+        print('训练集',len(upl))
         # for i ,ele in enumerate(upl):
             # print(ele['score'])
 
@@ -138,14 +138,9 @@ class gt():
         # 更新档次 cc
         ur = 0.5    # 档次提升度 up_ratio   类比 学习率
 
-        # self.cc
-        new_cc = (high -low)* ur + low
+        self.cc = (high -low)* ur + low
 
-        if(new_cc >self.cc):
-            self.cc = new_cc
-
-        # print('新档次',self.cc)
-        print('训练集',len(upl),self.cc)
+        print('新档次',self.cc)
         
 
 

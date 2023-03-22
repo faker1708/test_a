@@ -22,6 +22,5 @@ for t in range(100):
     result_list.append(t*t)
 
     plt.plot(t_list, result_list,c='deeppink')  ## 保存历史数据
+    #plt.plot(t, np.sin(t), 'o')
     plt.pause(0.1)
-
-plt.pause(100)
