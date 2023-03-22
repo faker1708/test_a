@@ -3,16 +3,13 @@
 
 import torch
 
-# 如果batch_size 为1 一定要保证你的输入输出 都是列向量
-# x2 = torch.unsqueeze(x1, dim=1)
-
 class mlp():
 
     def __init__(self,super_param,lr,batch_size,mode = 'gpu'):
         # super_param = [2,2] # 超参是个列表，记录有几层神经元，每层有几个神经元，列表里的值 不是个数 ，而是个数的对数。具体构造规则见build函数。
         self.super_param = super_param
         self.mode = mode
-        self.batch_size = batch_size    # 只有一个地方要用，就是均摊损失。
+        self.batch_size = batch_size
         
 
 
@@ -45,18 +42,16 @@ class mlp():
                 n = super_param[i]
                 m = super_param[i+1]
 
-                # print('mlp m',m)
+                print('mlp m',m)
                 
 
                 if(self.mode == 'cpu'):
                     
                     w = torch.normal(0,1,(m,n)).cpu()
-                    # b = torch.normal(0,1,(m,self.batch_size)).cpu()
-                    b = torch.normal(0,1,(m,1)).cpu()
+                    b = torch.normal(0,1,(m,self.batch_size)).cpu()
                 elif(self.mode == 'gpu'):
                     w = torch.normal(0,1,(m,n)).cuda()
-                    b = torch.normal(0,1,(m,1)).cuda()
-                    # b = torch.normal(0,1,(m,self.batch_size)).cuda()
+                    b = torch.normal(0,1,(m,self.batch_size)).cuda()
                     # b = torch.normal(0,1,(m,self.batch_size)).cuda().half()
 
                     
@@ -172,7 +167,7 @@ class mlp():
                 x = self.rl(w @ x + b)
                 # print(w.shape)
                 # print(b.shape)
-                # print('x 后 ',i,x.shape)
+                # print('x',x.shape)
 
                 # print('\nwewfe\n')
 

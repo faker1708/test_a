@@ -7,8 +7,6 @@ import random
 
 # conda activate python39
 
-
-
 class gt():
 
 
@@ -42,33 +40,6 @@ class gt():
 
         lr = 0.02
         self.nn  = mlp.mlp(super_param,lr,batch_size,'gpu')         # 构造神经网络
-
-    def liquidate(self):
-
-        dcl = self.dcl  # 本轮模拟报告
-        cc = self.cc    # 心理预期
-
-        find_it = 0
-        hd = dcl[0]
-        for i,dc in enumerate(dcl):            
-            score =dc['score'] 
-            if ( score > cc):
-                cc = score
-                hd = dc
-                find_it
-        if(find_it):
-            # 有更优秀的
-            pass
-
-        else:
-            # 没有更优秀的
-            pass
-        
-        # return hd
-
-
-
-class agent():
 
     def acf(self):
 
@@ -108,16 +79,44 @@ class agent():
         return ac
         
 
-    pass
+    def liquidate(self):
+
+        q_line = 0  # 比这条线高，就当作榜样来学习
+        dcl = self.dcl
 
 
+        cc = self.cc
 
-class gd():
+        
+
+        upl = list()
+        for i,dc in enumerate(dcl):
+            
+            score =dc['score'] 
+            if ( score > cc):
+                upl.append(dc)
+        
+
+        if(len(upl)>=1):
+            high = upl[0]['score']
+            hd = upl[0]
+            for i,dc in enumerate(upl):
+                score = dc['score']
+                if(score > high):
+                    high=score
+                    hd = dc
+            self.cc = high
+
+        else:
+            print('不训练，没有更好的')
+            hd = 0
+            pass
+        
+        return hd
 
 
     def main(self):
-        a = agent()
-        
+
 
         # 生成环境
         env = gym.make('CartPole-v1',render_mode='human')
@@ -205,10 +204,5 @@ class gd():
 
         env.close()
 
-
-
-
-if __name__ == '__main__':
-
-    a = gd()
-    a.main()
+a = gt()
+a.main()
